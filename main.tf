@@ -7,17 +7,40 @@ resource "aws_instance" "ubuntu" {
   instance_type     = "t2.micro"
   availability_zone = "us-east-1a"
   key_name          = "terraform"
+  subnet_id         = "${data.aws_subnet.selected.id}"
+  security_groups   = ["${aws_security_group.security-group.id}"]
+  user_data         = "${file("user_data.sh")}"
 
   tags {
     Name = "Dale slack"
   }
 
-  user_data = <<-EOF
-              #!/bin/bash
-              apt-get update
-              apt-get install python-pip python-dev build-essential
-              apt-get install git
-              pip install -r requirements.txt
-              python app.py
-              EOF
+}
+
+
+resource "aws_security_group" "security-group" {
+  name        = "allow_port_5000"
+  description = "Allow inbound traffic from port 5000"
+  vpc_id      = "${data.aws_vpc.vpc.id}"
+
+  ingress {
+    from_port   = 5000
+    to_port     = 5000
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  ingress {
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
 }
