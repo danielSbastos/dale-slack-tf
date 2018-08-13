@@ -5,4 +5,4 @@ sudo apt-get install -y git
 git clone https://github.com/danielSbastos/dale-slack-tf.git
 cd dale-slack-tf
 sudo pip3 install -r requirements.txt
-python3 app.py
+sudo python3 app.py

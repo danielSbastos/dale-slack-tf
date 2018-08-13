@@ -19,13 +19,13 @@ resource "aws_instance" "ubuntu" {
 
 
 resource "aws_security_group" "security-group" {
-  name        = "allow_port_5000"
-  description = "Allow inbound traffic from port 5000"
+  name        = "allow_port_80"
+  description = "Allow inbound traffic from port 80"
   vpc_id      = "${data.aws_vpc.vpc.id}"
 
   ingress {
-    from_port   = 5000
-    to_port     = 5000
+    from_port   = 80
+    to_port     = 80
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
