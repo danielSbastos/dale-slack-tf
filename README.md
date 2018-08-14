@@ -1,4 +1,6 @@
-## Dale slack
+# "Vamo Dale" Slack slash command
+
+![Vamo dale](https://media.giphy.com/media/5bd09I7JVypLQdxERF/giphy.gif)
 
 Little project for [Magrathea Labs](http://magrathealabs.com) Slack workspace that works like the following:
  1) A person types `/dale` slash command
