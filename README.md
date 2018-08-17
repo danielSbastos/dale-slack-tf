@@ -12,7 +12,7 @@ It is being hosted on AWS and using the EC2 resource. All the infra configuratio
 - [Setup](#setup)
 - [Development](#development)
 - [Deploy](#deploy)
-
+- [Kubernetes](#kubernetes)
 
 ## Dependencies
 
@@ -53,3 +53,18 @@ terraform init
 terraform plan (not necessary but nice to double check the changes)
 terraform apply
 ```
+
+## Kubernetes
+
+This application is my pet project for Kubernetes. There are the following structures (inside `/kubernetes` folder):
+
+- `web-pod.yml` creates a pod with a single container, exposing the port 5000
+- `web-svc.yml` creates a NodePort service for this pod, allowing it to be accessed externally via the node `IP` and the pod `port` defined in this service.
+
+To test it locally:
+  1) Install `minikube` and `kubectl`
+  2) Start `minikube` with `minikube start`
+  3) Check the cluster if alright with `kubectl cluster-info`
+  4) If yes, then create the web service and pod, `kubectl create -f web-pod.yml` and `kubectl create -f web-svc.yml`
+  5) Check that they were created with `kubectl get pods` and `kubectl get svc`
+  6) Now make a `POST` request to this service, first get the node's IP (`Kubernetes master`) with `kubectl cluster-info` and the service's `port` with `kubectl get svc` (search for the `web` service and for the exposed port between `30000-32767`). For example: `curl -X POST 192.168.99.100:31321/dale_gif`

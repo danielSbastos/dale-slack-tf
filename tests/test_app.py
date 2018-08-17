@@ -14,7 +14,7 @@ class FlaskrTestCase(unittest.TestCase):
     def test_home_status_code(self):
         result = self.app.post("/dale_gif")
 
-        response_data = json.loads(result.data)
+        response_data = json.loads(result.data.decode())
 
         self.assertEqual(result.status_code, 200)
         self.assertRegexpMatches(
