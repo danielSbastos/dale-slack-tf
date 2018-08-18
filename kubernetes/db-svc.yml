@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: redis
+  labels:
+    name: redis
+    app: dale
+spec:
+  selector:
+    name: redis
+  ports:
+   - port: 6379
+     name: redis
+     targetPort: 6379
