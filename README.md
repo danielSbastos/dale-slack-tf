@@ -25,14 +25,15 @@ After cloning it, install the dependencies with `pip3 install -r requirements.tx
 
 ## Development
 
-Start the server with
-`sudo python3 app.py` (`sudo` is needed because port `80` will be used)
+Start the server with `python3 app.py`
+
+### Get a gif
 
 To get a dale gif, make the following request
 
-`curl -X POST localhost/dale_gif`
+`curl -X POST localhost:5000/dale_gif`
 
-It should return something sililar to the snippet below
+It should return something similar to the snippet below
 
 ```sh
 {
@@ -43,6 +44,13 @@ It should return something sililar to the snippet below
   }]
 }
 ```
+### Register a gif
+
+First upload your dale gif to [Giphy](https://giphy.com/) and get its id. For example, the following gif url, ´https://media.giphy.com/media/8FGM7VT9bre1TqKRds/giphy.gif`, has the id as `8FGM7VT9bre1TqKRds`
+
+With the id, make the following request:
+
+`curl -X POST localhost:5000/register_dale_gif -d '{"gif_id": "8FGM7VT9bre1TqKRds"}' -H "content-type: application/json"`
 
 ## Deploy
 
@@ -58,13 +66,18 @@ terraform apply
 
 This application is my pet project for Kubernetes. There are the following structures (inside `/kubernetes` folder):
 
-- `web-pod.yml` creates a pod with a single container, exposing the port 5000
-- `web-svc.yml` creates a NodePort service for this pod, allowing it to be accessed externally via the node `IP` and the pod `port` defined in this service.
+- `web-deployment.yml` creates a deployment with 3 replicas, each with a single container running the python application and exposing port 5000.
+- `web-svc.yml` creates a NodePort service for the pods created above, allowing them to be accessed externally via the node `IP` and the pod `port` defined in this service.
+- `db-pod.yml` creates a pod with redis running and exposing the port 6379.
+- `db-svc.yml` creates a service for the redis pod created above.
 
 To test it locally:
   1) Install `minikube` and `kubectl`
   2) Start `minikube` with `minikube start`
   3) Check the cluster if alright with `kubectl cluster-info`
-  4) If yes, then create the web service and pod, `kubectl create -f web-pod.yml` and `kubectl create -f web-svc.yml`
-  5) Check that they were created with `kubectl get pods` and `kubectl get svc`
+  4) If yes, then create the following objects
+  ```sh
+  kubectl create -f web-deployment.yml -f web-svc.yml -f db-pod.yml -f db-svc.yml
+  ```
+  5) Check that they were created with `kubectl get pods`. `kubectl get svc` and `kubectl get deployments`
   6) Now make a `POST` request to this service, first get the node's IP (`Kubernetes master`) with `kubectl cluster-info` and the service's `port` with `kubectl get svc` (search for the `web` service and for the exposed port between `30000-32767`). For example: `curl -X POST 192.168.99.100:31321/dale_gif`

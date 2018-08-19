@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web-deployment
+  labels:
+    name: web
+    app: dale
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      name: web
+      app: dale
+  template:
+    metadata:
+      labels:
+        name: web
+        app: dale
+    spec:
+      containers:
+      - name: web
+        image: dbastos/dale-slack:4
+        ports:
+          - containerPort: 5000
+            name: http
+            protocol: TCP
+        env:
+          - name: REDIS_HOST
+            value: "redis"
+          - name: REDIS_PORT
+            value: "6379"
