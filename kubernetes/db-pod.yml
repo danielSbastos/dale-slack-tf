@@ -12,8 +12,3 @@ spec:
       ports:
         - containerPort: 6379
           protocol: TCP
-      env:
-        - name: REDIS_HOST
-          value: "redis"
-        - name: REDIS_PORT
-          value: "6379"

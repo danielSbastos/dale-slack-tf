@@ -6,7 +6,7 @@ from flask import Flask, jsonify, request
 from redis import Redis
 
 
-REDIS_HOST = os.getenv("REDIS_HOST", "localhost")
+REDIS_HOST = os.getenv("REDIS_HOST", "redis")
 REDIS_PORT = os.getenv("REDIS_PORT", 6379)
 SAMPLE_GIFS_IDS = [
     "8FGM7VT9bre1TqKRds",
