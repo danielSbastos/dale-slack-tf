@@ -1,0 +1,40 @@
+apiVersion: apps/v1beta2
+kind: StatefulSet
+metadata:
+  name: redis
+  labels:
+    name: redis
+    app: dale
+spec:
+  selector:
+    matchLabels:
+      name: redis
+      app: dale
+  serviceName: redis
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        name: redis
+        app: dale
+    spec:
+      containers:
+        - name: redis
+          image: redis:3.2-alpine
+          imagePullPolicy: Always
+          args: ["--save", "900", "1"]
+          ports:
+            - containerPort: 6379
+              name: redis
+          volumeMounts:
+            - name: redis-volume
+              mountPath: /data
+
+  volumeClaimTemplates:
+    - metadata:
+        name: redis-volume
+      spec:
+        accessModes: [ "ReadWriteOnce" ]
+        resources:
+          requests:
+            storage: 1Gi

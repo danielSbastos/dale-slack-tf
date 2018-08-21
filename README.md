@@ -68,7 +68,7 @@ This application is my pet project for Kubernetes. There are the following struc
 
 - `web-deployment.yml` creates a deployment with 3 replicas, each with a single container running the python application and exposing port 5000.
 - `web-svc.yml` creates a NodePort service for the pods created above, allowing them to be accessed externally via the node `IP` and the pod `port` defined in this service.
-- `db-pod.yml` creates a pod with redis running and exposing the port 6379.
+- `db-statefulset.yml` creates a statefulset for Redis in order to maintain state if its pods are restarted.
 - `db-svc.yml` creates a service for the redis pod created above.
 
 To test it locally:
@@ -77,7 +77,7 @@ To test it locally:
   3) Check the cluster if alright with `kubectl cluster-info`
   4) If yes, then create the following objects
   ```sh
-  kubectl create -f web-deployment.yml -f web-svc.yml -f db-pod.yml -f db-svc.yml
+  kubectl create -f web-deployment.yml -f web-svc.yml -f db-statefulset.yml -f db-svc.yml
   ```
   5) Check that they were created with `kubectl get pods`. `kubectl get svc` and `kubectl get deployments`
   6) Now make a `POST` request to this service, first get the node's IP (`Kubernetes master`) with `kubectl cluster-info` and the service's `port` with `kubectl get svc` (search for the `web` service and for the exposed port between `30000-32767`). For example: `curl -X POST 192.168.99.100:31321/dale_gif`
