@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
       - name: web
-        image: dbastos/dale-slack:4
+        image: dbastos/dale-slack:5
         ports:
           - containerPort: 5000
             name: http

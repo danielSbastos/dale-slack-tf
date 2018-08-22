@@ -114,3 +114,8 @@ venv.bak/
 
 # .tfvars files
 *.tfvars
+
+# Secrets
+*.pem
+*.crt
+*.key
