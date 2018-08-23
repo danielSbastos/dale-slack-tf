@@ -19,7 +19,7 @@ redis = Redis(host=REDIS_HOST, port=REDIS_PORT)
 
 # This is supposed to be a GET endpoint, but Slack
 # only sends POST requests in the 'slash command' feature
-@app.route("/healthz", methods=["POST"])
+@app.route("/dale_gif", methods=["POST"])
 def dale_gif():
     gif_id = request.form.get("text")
     if gif_id:

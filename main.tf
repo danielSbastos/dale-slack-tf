@@ -6,7 +6,7 @@ resource "aws_instance" "ubuntu" {
   ami               = "ami-2e1ef954"
   instance_type     = "t2.micro"
   availability_zone = "us-east-1a"
-  key_name          = "terraform"
+  key_name          = "dale"
   subnet_id         = "${data.aws_subnet.selected.id}"
   security_groups   = ["${aws_security_group.security-group.id}"]
   user_data         = "${file("user_data.sh")}"
