@@ -3,7 +3,7 @@ provider "aws" {
 }
 
 resource "aws_instance" "ubuntu" {
-  ami               = "ami-2e1ef954"
+  ami               = "ami-0ff8a91507f77f867"
   instance_type     = "t2.micro"
   availability_zone = "us-east-1a"
   key_name          = "dale"
@@ -19,13 +19,13 @@ resource "aws_instance" "ubuntu" {
 
 
 resource "aws_security_group" "security-group" {
-  name        = "allow_port_80"
-  description = "Allow inbound traffic from port 80"
+  name        = "allow_port_5000"
+  description = "Allow inbound traffic from port 5000"
   vpc_id      = "${data.aws_vpc.vpc.id}"
 
   ingress {
-    from_port   = 80
-    to_port     = 80
+    from_port   = 5000
+    to_port     = 5000
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }

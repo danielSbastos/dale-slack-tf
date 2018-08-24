@@ -1,8 +1,14 @@
-#!/bin/bash
-sudo apt-get update -y
-sudo apt-get install -y python3 python3-pip python3-dev build-essential
-sudo apt-get install -y git
+sudo yum update -y
+sudo yum install -y docker git
+
 git clone https://github.com/danielSbastos/dale-slack-tf.git
 cd dale-slack-tf
-sudo pip3 install -r requirements.txt
-sudo python3 app.py
+
+sudo usermod -a -G docker ec2-user
+sudo curl -L https://github.com/docker/compose/releases/download/1.9.0/docker-compose-`uname -s`-`uname -m` | sudo tee /usr/local/bin/docker-compose > /dev/null
+sudo chmod +x /usr/local/bin/docker-compose
+sudo service docker start
+sudo chkconfig docker on
+
+docker-compose build
+docker-compose up
